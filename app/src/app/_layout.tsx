@@ -9,6 +9,10 @@ export default function RootLayout() {
     <AuthContextProvider>
       <Stack>
         <Stack.Screen name="index" options={{ headerShown: false }} />
+        <Stack.Screen
+          name="games/rock-paper-scissors"
+          options={{ title: 'Rock Paper Scissors' }}
+        />
       </Stack>
 
       <StatusBar style="auto" />

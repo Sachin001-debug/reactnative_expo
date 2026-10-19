@@ -1,0 +1,5 @@
+trivia
+tic tac toe
+rock paper scissors 
+mines
+guess the number

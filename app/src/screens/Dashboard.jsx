@@ -1,111 +1,153 @@
-import React from 'react';
+
+import React from "react";
+import { View, Image, Text, Pressable, ScrollView } from "react-native";
 import {
-  View,
-  Text,
-  Pressable,
-  ScrollView,
-  Alert,
-  SafeAreaView,
-} from 'react-native';
-import { useAuth } from '../context/AuthContextProvider';
+  Bot,
+  Users,
+  Gamepad2,
+  ChevronRight,
+  Sparkles,
+  Trophy,
+} from "lucide-react-native";
+
+import GameCards from "../components/GameCards";
+import Navbar from "../components/Navbar";
+
+import BotImage from "../assets/bot.jpg";
+import OnlineUser from "../assets/onlineUser.jpg";
 
 const Dashboard = () => {
-  const { user, logout } = useAuth();
-
-  const handleLogout = () => {
-    Alert.alert(
-      'Log Out',
-      'Are you sure you want to log out?',
-      [
-        { text: 'Cancel', style: 'cancel' },
-        { text: 'Log Out', style: 'destructive', onPress: logout },
-      ]
-    );
-  };
-
-  const initial = user?.name ? user.name.charAt(0).toUpperCase() : 'U';
+  const modes = [
+    {
+      id: "1",
+      name: "Play with Bot",
+      subtitle: "Challenge AI",
+      image: BotImage,
+      icon: Bot,
+      color: "#D1FAE5",
+      iconColor: "#047857",
+    },
+    {
+      id: "2",
+      name: "Play Online",
+      subtitle: "Challenge a player for 1v1",
+      image: OnlineUser,
+      icon: Users,
+      color: "#DBEAFE",
+      iconColor: "#2563EB",
+    },
+  ];
 
   return (
-    <SafeAreaView className="flex-1 bg-slate-50">
-      <ScrollView
-        contentContainerClassName="p-6"
-        showsVerticalScrollIndicator={false}
-      >
-        {/* Header */}
-        <View className="mb-6 flex-row items-center justify-between">
-          <View>
-            <Text className="text-sm font-medium text-slate-500">
-              Welcome back,
+    <ScrollView
+      className="flex-1 bg-blue-100"
+      showsVerticalScrollIndicator={false}
+      contentContainerStyle={{ paddingBottom: 32 }}
+    >
+      <View>
+        <Navbar />
+
+        {/* Welcome */}
+        <View className="flex-row items-center justify-between px-5 pb-6 pt-5">
+          <View className="flex-1">
+            <Text className="text-sm font-medium text-gray-500">
+              READY TO PLAY?
             </Text>
-            <Text className="text-2xl font-bold text-slate-900">
-              {user?.name || 'User'}
+
+            <Text className="mt-1 text-3xl font-extrabold text-gray-900">
+              Game On!
+            </Text>
+
+            <Text className="mt-2 text-sm text-gray-500">
+              Challenge yourself or compete with others.
             </Text>
           </View>
-          <View className="h-12 w-12 items-center justify-center rounded-full bg-emerald-600 shadow-sm">
-            <Text className="text-xl font-bold text-white">{initial}</Text>
+
+          <View className="h-14 w-14 items-center justify-center rounded-2xl bg-emerald-100">
+            <Gamepad2 size={30} color="#059669" />
           </View>
         </View>
 
-        {/* Profile Card */}
-        <View className="mb-6 rounded-3xl bg-white p-6 shadow-sm border border-slate-100">
-          <Text className="text-lg font-bold text-slate-800 mb-4">
-            Account Information
-          </Text>
-
-          <View className="mb-4">
-            <Text className="text-xs font-semibold uppercase tracking-wider text-slate-400">
-              Full Name
-            </Text>
-            <Text className="text-base font-medium text-slate-800 mt-1">
-              {user?.name || 'N/A'}
-            </Text>
-          </View>
-
-          <View className="mb-4">
-            <Text className="text-xs font-semibold uppercase tracking-wider text-slate-400">
-              Email Address
-            </Text>
-            <Text className="text-base font-medium text-slate-800 mt-1">
-              {user?.email || 'N/A'}
-            </Text>
-          </View>
-
-          {user?.id && (
-            <View className="mb-2">
-              <Text className="text-xs font-semibold uppercase tracking-wider text-slate-400">
-                User ID
-              </Text>
-              <Text className="text-base font-medium text-slate-800 mt-1">
-                #{user.id}
-              </Text>
-            </View>
-          )}
-        </View>
-
-        {/* Status card */}
-        <View className="mb-8 rounded-3xl bg-emerald-50 p-6 border border-emerald-100">
-          <View className="flex-row items-center mb-2">
-            <View className="h-3 w-3 rounded-full bg-emerald-500 mr-2" />
-            <Text className="text-sm font-semibold text-emerald-800">
-              Status: Active & Logged In
-            </Text>
-          </View>
-          <Text className="text-sm text-emerald-700 leading-relaxed">
-            Your session is authenticated and securely connected to your backend API.
+        {/* Game Modes */}
+        <View className="mb-1 flex-row items-center gap-2 px-5">
+          <Sparkles size={20} color="#059669" />
+          <Text className="text-xl font-bold text-gray-900">
+            Choose Your Mode For 1v1 of 5 Games
           </Text>
         </View>
 
-        {/* Log Out Button */}
-        <Pressable
-          onPress={handleLogout}
-          className="items-center justify-center rounded-2xl bg-rose-600 py-4 shadow-sm active:bg-rose-700"
-          accessibilityRole="button"
-          accessibilityLabel="Log Out"
-        >
-          <Text className="text-base font-bold text-white">Log Out</Text>
-        </Pressable>
-      </ScrollView>
-    </SafeAreaView>
+        <View className="flex-row gap-4 px-5 py-4">
+          {modes.map((mode) => {
+            const ModeIcon = mode.icon;
+
+            return (
+              <Pressable
+                key={mode.id}
+                onPress={() => {
+                  // TODO: Navigate to the selected mode
+                }}
+                className="flex-1 overflow-hidden rounded-2xl border border-gray-100 bg-white"
+                style={({ pressed }) => ({
+                  opacity: pressed ? 0.85 : 1,
+                })}
+              >
+                <View>
+                  <Image
+                    source={mode.image}
+                    className="h-32 w-full"
+                    resizeMode="cover"
+                  />
+
+                  <View
+                    className="absolute right-2 top-2 h-9 w-9 items-center justify-center rounded-xl"
+                    style={{ backgroundColor: mode.color }}
+                  >
+                    <ModeIcon size={19} color={mode.iconColor} />
+                  </View>
+                </View>
+
+                <View className="p-3">
+                  <Text className="text-sm font-bold text-gray-900">
+                    {mode.name}
+                  </Text>
+
+                  <Text className="mt-1 text-xs text-gray-500">
+                    {mode.subtitle}
+                  </Text>
+
+                  <View className="mt-3 flex-row items-center justify-between">
+                    <Text className="text-xs font-semibold text-emerald-700">
+                      Play now
+                    </Text>
+                    <ChevronRight size={17} color="#047857" />
+                  </View>
+                </View>
+              </Pressable>
+            );
+          })}
+        </View>
+
+        {/* Game Collection Heading */}
+        <View className="mb-1 mt-3 flex-row items-center justify-between px-5">
+          <View className="flex-row items-center gap-2">
+            <Trophy size={20} color="#059669" />
+
+            <Text className="text-xl font-bold text-gray-900">
+              Game Collection
+            </Text>
+          </View>
+
+          <Text className="text-sm font-medium text-emerald-700">
+            5 Games
+          </Text>
+        </View>
+
+        <Text className="mb-2 px-5 text-sm text-gray-500">
+          Pick your favorite and prove your skills.
+        </Text>
+      </View>
+      <GameCards />
+    </ScrollView>
   );
 };
 
